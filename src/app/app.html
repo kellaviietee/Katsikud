@@ -1,16 +1,16 @@
-<div class="page">
+﻿<div class="page">
   <header class="header">
     <div class="header-inner">
       <div class="header-title">
-        <span class="header-emoji">??</span>
+        <span class="header-emoji">&#127873;</span>
         <div>
-          <h1 class="title">Gift Registry</h1>
-          <p class="subtitle">Tick a gift to let others know you're buying it</p>
+          <h1 class="title">Kinginimekiri</h1>
+          <p class="subtitle">Märgi ära kingitus, mida kavatsed osta.</p>
         </div>
       </div>
       <div class="header-actions">
         @if (editMode()) {
-          <span class="edit-badge">?? Edit Mode</span>
+          <span class="edit-badge">&#9999;&#65039; Edit Mode</span>
         }
         @if (!giftService.noRegistry()) {
           <button class="btn-share" (click)="copyShareLink()">
@@ -34,11 +34,11 @@
     @if (giftService.loading()) {
       <div class="state-box">
         <span class="spinner"></span>
-        <p>Loading registry�</p>
+        <p>Loading registry&hellip;</p>
       </div>
     } @else if (giftService.noRegistry()) {
       <div class="state-box">
-        <span class="state-emoji">??</span>
+        <span class="state-emoji">&#128279;</span>
         <p class="state-title">No gift registry found</p>
         <p class="state-sub">Ask the owner to share their registry link with you.</p>
       </div>
@@ -53,11 +53,11 @@
         @if (giftService.gifts().length > 0) {
           <div class="list-header">
             <h2 class="section-title">
-              Gifts
+              Kingitused
               <span class="count-badge">{{ giftService.gifts().length }}</span>
             </h2>
             <span class="ticked-count">
-              {{ giftService.tickedIds().size }} / {{ giftService.gifts().length }} being bought
+              {{ giftService.tickedIds().size }} / {{ giftService.gifts().length }} valitud
             </span>
           </div>
         }
@@ -69,9 +69,4 @@
       </section>
     }
   </main>
-  <footer class="footer">
-    @if (!editMode() && !giftService.noRegistry()) {
-      <p>Are you the owner? Open your <strong>bookmarked edit link</strong> to manage gifts.</p>
-    }
-  </footer>
 </div>
