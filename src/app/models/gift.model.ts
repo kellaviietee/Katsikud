@@ -3,4 +3,3 @@ export interface Gift {
   name: string;
   url?: string;
 }
-

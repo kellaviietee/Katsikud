@@ -17,6 +17,21 @@ export class App {
   constructor() {
     const params = new URLSearchParams(window.location.search);
     this.editMode.set(params.has('edit'));
+    const registryId = params.get('r');
+
+    if (registryId) {
+      this.giftService.loadRegistry(registryId);
+    } else if (this.editMode()) {
+      // No registry yet — create one and update the URL
+      this.giftService.createRegistry().then(id => {
+        const newUrl = `${window.location.pathname}?edit=1&r=${id}`;
+        history.replaceState(null, '', newUrl);
+      });
+    } else {
+      // Visitor with no registry ID
+      this.giftService.loading.set(false);
+      this.giftService.noRegistry.set(true);
+    }
   }
 
   addGift(event: { name: string; url?: string }): void {
