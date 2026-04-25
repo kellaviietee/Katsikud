@@ -1,0 +1,24 @@
+@if (gifts().length > 0) {
+  <ul class="gift-grid" role="list">
+    @for (gift of gifts(); track gift.id) {
+      <li>
+        <app-gift-item
+          [gift]="gift"
+          [editMode]="editMode()"
+          (remove)="remove.emit($event)"
+        />
+      </li>
+    }
+  </ul>
+} @else {
+  <div class="empty-state">
+    <span class="empty-icon">🎁</span>
+    <p class="empty-title">No gifts yet</p>
+    @if (editMode()) {
+      <p class="empty-sub">Add your first gift above to get started.</p>
+    } @else {
+      <p class="empty-sub">The gift list is empty.</p>
+    }
+  </div>
+}
+
