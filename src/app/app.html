@@ -38,6 +38,9 @@
         @if (!editMode() && giftService.allowGuestAdd() && !guestAdding()) {
           <button class="btn-share" (click)="toggleGuestAdding()">Lisa kingitus</button>
         }
+        @if (editMode()) {
+          <button class="btn-danger" (click)="deleteRegistry()">Kustuta nimekiri</button>
+        }
       </div>
     </div>
   </header>

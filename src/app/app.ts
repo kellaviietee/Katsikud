@@ -70,4 +70,17 @@ export class App {
   toggleGuestAdding(): void {
     this.guestAdding.update(v => !v);
   }
+
+  async deleteRegistry(): Promise<void> {
+    const confirmed = window.confirm(
+      'Kas oled kindel, et soovid kogu kinginimekirja kustutada? Seda ei saa tagasi võtta.'
+    );
+    if (!confirmed) return;
+
+    await this.giftService.deleteRegistry();
+    this.editMode.set(false);
+    this.guestAdding.set(false);
+    this.giftService.noRegistry.set(true);
+    history.replaceState(null, '', window.location.pathname);
+  }
 }

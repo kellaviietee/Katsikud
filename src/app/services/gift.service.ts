@@ -66,6 +66,15 @@ export class GiftService {
     await set(ref(this.db, `registries/${this.registryId()}/meta/allowGuestAdd`), allow);
   }
 
+  async deleteRegistry(): Promise<void> {
+    const id = this.registryId();
+    await remove(ref(this.db, `registries/${id}`));
+    this.gifts.set([]);
+    this.tickedIds.set(new Set());
+    this.registryId.set('');
+    this.allowGuestAdd.set(false);
+  }
+
   async addGift(name: string, url?: string): Promise<void> {
     const giftsRef = ref(this.db, `registries/${this.registryId()}/gifts`);
     await push(giftsRef, { name: name.trim(), url: url?.trim() ?? '' });

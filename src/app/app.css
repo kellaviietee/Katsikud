@@ -122,6 +122,32 @@
   transform: scale(0.97);
 }
 
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #dc2626;
+  border: 1.5px solid color-mix(in srgb, #dc2626 40%, transparent);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+.btn-danger:active {
+  transform: scale(0.97);
+}
+
 /* ====
    Main
    ==== */
