@@ -47,4 +47,13 @@ export class App {
     this.copied.set(true);
     setTimeout(() => this.copied.set(false), 2500);
   }
+
+  async createNewRegistry(): Promise<void> {
+    this.giftService.noRegistry.set(false);
+    this.giftService.loading.set(true);
+    this.editMode.set(true);
+    const id = await this.giftService.createRegistry();
+    const newUrl = `${window.location.pathname}?edit=1&r=${id}`;
+    history.replaceState(null, '', newUrl);
+  }
 }

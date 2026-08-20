@@ -40,7 +40,8 @@
       <div class="state-box">
         <span class="state-emoji">&#128279;</span>
         <p class="state-title">No gift registry found</p>
-        <p class="state-sub">Ask the owner to share their registry link with you.</p>
+        <p class="state-sub">Las nimekirja omanik jagab sinuga kinginimekirja urli, või loo ise uus kinginimekiri</p>
+        <button class="btn-share" (click)="createNewRegistry()">Loo uus nimekiri</button>
       </div>
     } @else {
       @if (editMode()) {
