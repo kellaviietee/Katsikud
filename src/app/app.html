@@ -11,6 +11,14 @@
       <div class="header-actions">
         @if (editMode()) {
           <span class="edit-badge">&#9999;&#65039; Edit Mode</span>
+          <label class="guest-add-toggle">
+            <input
+              type="checkbox"
+              [checked]="giftService.allowGuestAdd()"
+              (change)="toggleAllowGuestAdd($event)"
+            />
+            Luba teistel kingitusi lisada
+          </label>
         }
         @if (editMode()) {
           <button class="btn-share" (click)="copyShareLink()">
@@ -26,6 +34,9 @@
               Share Link
             }
           </button>
+        }
+        @if (!editMode() && giftService.allowGuestAdd() && !guestAdding()) {
+          <button class="btn-share" (click)="toggleGuestAdding()">Lisa kingitus</button>
         }
       </div>
     </div>
@@ -44,7 +55,7 @@
         <button class="btn-share" (click)="createNewRegistry()">Loo uus nimekiri</button>
       </div>
     } @else {
-      @if (editMode()) {
+      @if (canAdd()) {
         <section class="add-section">
           <h2 class="section-title">Lisa kingitus</h2>
           <app-add-gift (add)="addGift($event)" />
@@ -65,6 +76,7 @@
         <app-gift-list
           [gifts]="giftService.gifts()"
           [editMode]="editMode()"
+          [canAdd]="canAdd()"
           (remove)="removeGift($event)"
         />
       </section>

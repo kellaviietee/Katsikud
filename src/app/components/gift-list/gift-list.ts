@@ -11,6 +11,7 @@ import { GiftItemComponent } from '../gift-item/gift-item';
 export class GiftListComponent {
   readonly gifts = input.required<Gift[]>();
   readonly editMode = input<boolean>(false);
+  readonly canAdd = input<boolean>(false);
   readonly remove = output<string>();
 }
 

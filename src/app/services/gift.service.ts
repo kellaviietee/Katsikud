@@ -19,6 +19,7 @@ export class GiftService {
   readonly registryId = signal<string>('');
   readonly loading = signal<boolean>(true);
   readonly noRegistry = signal<boolean>(false);
+  readonly allowGuestAdd = signal<boolean>(false);
 
   private readonly db = getDatabase(initializeApp(environment.firebase));
 
@@ -48,13 +49,21 @@ export class GiftService {
         data ? new Set(Object.keys(data).filter(k => data[k] === true)) : new Set()
       );
     });
+
+    onValue(ref(this.db, `registries/${id}/meta/allowGuestAdd`), (snap: DataSnapshot) => {
+      this.allowGuestAdd.set(snap.val() === true);
+    });
   }
 
   async createRegistry(): Promise<string> {
     const id = Math.random().toString(36).slice(2, 10);
-    await set(ref(this.db, `registries/${id}/meta`), { created: Date.now() });
+    await set(ref(this.db, `registries/${id}/meta`), { created: Date.now(), allowGuestAdd: false });
     this.loadRegistry(id);
     return id;
+  }
+
+  async setAllowGuestAdd(allow: boolean): Promise<void> {
+    await set(ref(this.db, `registries/${this.registryId()}/meta/allowGuestAdd`), allow);
   }
 
   async addGift(name: string, url?: string): Promise<void> {

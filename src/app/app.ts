@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { GiftService } from './services/gift.service';
 import { AddGiftComponent } from './components/add-gift/add-gift';
 import { GiftListComponent } from './components/gift-list/gift-list';
@@ -13,6 +13,11 @@ export class App {
   protected readonly giftService = inject(GiftService);
   protected readonly editMode = signal(false);
   protected readonly copied = signal(false);
+  // Whether a guest (non-owner) has opened the "add a gift" form, when the owner allows it.
+  protected readonly guestAdding = signal(false);
+  protected readonly canAdd = computed(
+    () => this.editMode() || (this.giftService.allowGuestAdd() && this.guestAdding())
+  );
 
   constructor() {
     const params = new URLSearchParams(window.location.search);
@@ -55,5 +60,14 @@ export class App {
     const id = await this.giftService.createRegistry();
     const newUrl = `${window.location.pathname}?edit=1&r=${id}`;
     history.replaceState(null, '', newUrl);
+  }
+
+  toggleAllowGuestAdd(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.giftService.setAllowGuestAdd(checked);
+  }
+
+  toggleGuestAdding(): void {
+    this.guestAdding.update(v => !v);
   }
 }

@@ -83,6 +83,20 @@
   border: 1.5px solid color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
+.guest-add-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.guest-add-toggle input {
+  cursor: pointer;
+}
+
 .btn-share {
   display: inline-flex;
   align-items: center;

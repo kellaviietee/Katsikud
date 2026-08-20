@@ -13,11 +13,11 @@
 } @else {
   <div class="empty-state">
     <span class="empty-icon">🎁</span>
-    <p class="empty-title">No gifts yet</p>
-    @if (editMode()) {
-      <p class="empty-sub">Add your first gift above to get started.</p>
+    <p class="empty-title">Kingisoove ei ole</p>
+    @if (canAdd()) {
+      <p class="empty-sub">Lisa oma esimene kingisoov üleval, et alustada.</p>
     } @else {
-      <p class="empty-sub">The gift list is empty.</p>
+      <p class="empty-sub">Kingituste nimekiri on tühi.</p>
     }
   </div>
 }
