@@ -39,8 +39,8 @@ export class App {
     }
   }
 
-  addGift(event: { name: string; url?: string }): void {
-    this.giftService.addGift(event.name, event.url);
+  addGift(event: { name: string; urls: string[] }): void {
+    this.giftService.addGift(event.name, event.urls);
   }
 
   removeGift(id: string): void {

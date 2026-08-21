@@ -15,13 +15,72 @@
     flex-direction: row;
   }
 
-  .form-fields .input:first-child {
+  .form-fields > input.input:first-child {
     flex: 1;
   }
 
-  .form-fields .input:last-child {
+  .form-fields > .url-fields {
     flex: 1.5;
   }
+}
+
+.url-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.url-field-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.url-field-row .input {
+  flex: 1;
+}
+
+.btn-remove-url {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  color: #c0b8b0;
+  transition: color 0.2s, background 0.2s;
+  padding: 0;
+}
+
+.btn-remove-url:hover {
+  background: #fde8e8;
+  color: #d9534f;
+}
+
+.btn-add-url {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  align-self: flex-start;
+  padding: 0.3rem 0.6rem;
+  background: transparent;
+  color: var(--accent);
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  opacity: 0.85;
+}
+
+.btn-add-url:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .input {

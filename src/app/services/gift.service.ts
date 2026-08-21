@@ -34,7 +34,11 @@ export class GiftService {
           Object.entries(data).map(([key, val]: [string, any]) => ({
             id: key,
             name: val.name as string,
-            url: (val.url as string) || undefined,
+            urls: Array.isArray(val.urls)
+              ? (val.urls as string[]).filter(Boolean)
+              : val.url
+                ? [val.url as string]
+                : [],
           }))
         );
       } else {
@@ -75,9 +79,10 @@ export class GiftService {
     this.allowGuestAdd.set(false);
   }
 
-  async addGift(name: string, url?: string): Promise<void> {
+  async addGift(name: string, urls: string[] = []): Promise<void> {
     const giftsRef = ref(this.db, `registries/${this.registryId()}/gifts`);
-    await push(giftsRef, { name: name.trim(), url: url?.trim() ?? '' });
+    const cleanUrls = urls.map(u => u.trim()).filter(Boolean);
+    await push(giftsRef, { name: name.trim(), urls: cleanUrls });
   }
 
   async removeGift(giftId: string): Promise<void> {

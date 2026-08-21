@@ -8,17 +8,27 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-gift.css',
 })
 export class AddGiftComponent {
-  readonly add = output<{ name: string; url?: string }>();
+  readonly add = output<{ name: string; urls: string[] }>();
 
   name = '';
-  url = '';
+  urls: string[] = [''];
+
+  addUrlField(): void {
+    this.urls.push('');
+  }
+
+  removeUrlField(index: number): void {
+    this.urls.splice(index, 1);
+    if (this.urls.length === 0) this.urls.push('');
+  }
 
   submit(): void {
     const trimmedName = this.name.trim();
     if (!trimmedName) return;
-    this.add.emit({ name: trimmedName, url: this.url.trim() || undefined });
+    const cleanUrls = this.urls.map(u => u.trim()).filter(Boolean);
+    this.add.emit({ name: trimmedName, urls: cleanUrls });
     this.name = '';
-    this.url = '';
+    this.urls = [''];
   }
 }
 
