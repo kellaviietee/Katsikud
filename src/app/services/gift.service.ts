@@ -85,6 +85,14 @@ export class GiftService {
     await push(giftsRef, { name: name.trim(), urls: cleanUrls });
   }
 
+  async updateGift(giftId: string, name: string, urls: string[] = []): Promise<void> {
+    const cleanUrls = urls.map(u => u.trim()).filter(Boolean);
+    await set(ref(this.db, `registries/${this.registryId()}/gifts/${giftId}`), {
+      name: name.trim(),
+      urls: cleanUrls,
+    });
+  }
+
   async removeGift(giftId: string): Promise<void> {
     const id = this.registryId();
     await remove(ref(this.db, `registries/${id}/gifts/${giftId}`));
