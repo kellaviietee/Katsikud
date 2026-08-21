@@ -59,6 +59,62 @@
   color: var(--text);
   margin: 0;
   letter-spacing: -0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.title-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.title-input {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.3rem 0.6rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  background: #fff;
+  letter-spacing: -0.03em;
+}
+
+.title-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.btn-icon-edit,
+.btn-icon-save,
+.btn-icon-cancel {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+  color: #c0b8b0;
+  transition: color 0.2s, background 0.2s;
+  padding: 0;
+}
+
+.btn-icon-edit:hover,
+.btn-icon-save:hover {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+
+.btn-icon-cancel:hover {
+  background: #fde8e8;
+  color: #d9534f;
 }
 
 .subtitle {

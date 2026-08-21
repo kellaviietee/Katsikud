@@ -20,6 +20,7 @@ export class GiftService {
   readonly loading = signal<boolean>(true);
   readonly noRegistry = signal<boolean>(false);
   readonly allowGuestAdd = signal<boolean>(false);
+  readonly title = signal<string>('');
 
   private readonly db = getDatabase(initializeApp(environment.firebase));
 
@@ -57,6 +58,10 @@ export class GiftService {
     onValue(ref(this.db, `registries/${id}/meta/allowGuestAdd`), (snap: DataSnapshot) => {
       this.allowGuestAdd.set(snap.val() === true);
     });
+
+    onValue(ref(this.db, `registries/${id}/meta/title`), (snap: DataSnapshot) => {
+      this.title.set((snap.val() as string) || '');
+    });
   }
 
   async createRegistry(): Promise<string> {
@@ -70,6 +75,10 @@ export class GiftService {
     await set(ref(this.db, `registries/${this.registryId()}/meta/allowGuestAdd`), allow);
   }
 
+  async setTitle(title: string): Promise<void> {
+    await set(ref(this.db, `registries/${this.registryId()}/meta/title`), title.trim());
+  }
+
   async deleteRegistry(): Promise<void> {
     const id = this.registryId();
     await remove(ref(this.db, `registries/${id}`));
@@ -77,6 +86,7 @@ export class GiftService {
     this.tickedIds.set(new Set());
     this.registryId.set('');
     this.allowGuestAdd.set(false);
+    this.title.set('');
   }
 
   async addGift(name: string, urls: string[] = []): Promise<void> {

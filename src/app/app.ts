@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { GiftService } from './services/gift.service';
 import { AddGiftComponent } from './components/add-gift/add-gift';
 import { GiftListComponent } from './components/gift-list/gift-list';
 
 @Component({
   selector: 'app-root',
-  imports: [AddGiftComponent, GiftListComponent],
+  imports: [FormsModule, AddGiftComponent, GiftListComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -18,6 +19,9 @@ export class App {
   protected readonly canAdd = computed(
     () => this.editMode() || (this.giftService.allowGuestAdd() && this.guestAdding())
   );
+
+  protected readonly editingTitle = signal(false);
+  protected titleInput = '';
 
   constructor() {
     const params = new URLSearchParams(window.location.search);
@@ -71,6 +75,20 @@ export class App {
     this.guestAdding.update(v => !v);
   }
 
+  startEditTitle(): void {
+    this.titleInput = this.giftService.title();
+    this.editingTitle.set(true);
+  }
+
+  cancelEditTitle(): void {
+    this.editingTitle.set(false);
+  }
+
+  saveTitle(): void {
+    this.giftService.setTitle(this.titleInput);
+    this.editingTitle.set(false);
+  }
+
   async deleteRegistry(): Promise<void> {
     const confirmed = window.confirm(
       'Kas oled kindel, et soovid kogu kinginimekirja kustutada? Seda ei saa tagasi võtta.'
@@ -80,6 +98,7 @@ export class App {
     await this.giftService.deleteRegistry();
     this.editMode.set(false);
     this.guestAdding.set(false);
+    this.editingTitle.set(false);
     this.giftService.noRegistry.set(true);
     history.replaceState(null, '', window.location.pathname);
   }
