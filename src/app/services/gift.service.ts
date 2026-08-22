@@ -40,6 +40,7 @@ export class GiftService {
               : val.url
                 ? [val.url as string]
                 : [],
+            addedBy: val.addedBy as string | undefined,
           }))
         );
       } else {
@@ -89,18 +90,26 @@ export class GiftService {
     this.title.set('');
   }
 
-  async addGift(name: string, urls: string[] = []): Promise<void> {
+  async addGift(name: string, urls: string[] = [], addedBy?: string): Promise<void> {
     const giftsRef = ref(this.db, `registries/${this.registryId()}/gifts`);
     const cleanUrls = urls.map(u => u.trim()).filter(Boolean);
-    await push(giftsRef, { name: name.trim(), urls: cleanUrls });
+    const gift: { name: string; urls: string[]; addedBy?: string } = {
+      name: name.trim(),
+      urls: cleanUrls,
+    };
+    if (addedBy) gift.addedBy = addedBy;
+    await push(giftsRef, gift);
   }
 
   async updateGift(giftId: string, name: string, urls: string[] = []): Promise<void> {
     const cleanUrls = urls.map(u => u.trim()).filter(Boolean);
-    await set(ref(this.db, `registries/${this.registryId()}/gifts/${giftId}`), {
+    const existing = this.gifts().find(g => g.id === giftId);
+    const gift: { name: string; urls: string[]; addedBy?: string } = {
       name: name.trim(),
       urls: cleanUrls,
-    });
+    };
+    if (existing?.addedBy) gift.addedBy = existing.addedBy;
+    await set(ref(this.db, `registries/${this.registryId()}/gifts/${giftId}`), gift);
   }
 
   async removeGift(giftId: string): Promise<void> {

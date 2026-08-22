@@ -12,11 +12,19 @@ import { GiftService } from '../../services/gift.service';
 export class GiftItemComponent {
   readonly gift = input.required<Gift>();
   readonly editMode = input<boolean>(false);
+  readonly guestSessionId = input<string>('');
   readonly remove = output<string>();
 
   private readonly giftService = inject(GiftService);
 
   readonly ticked = computed(() => this.giftService.tickedIds().has(this.gift().id));
+
+  /** Owner (editMode) can manage any gift; a guest can manage only the gift they added. */
+  readonly canManage = computed(
+    () =>
+      this.editMode() ||
+      (!!this.gift().addedBy && this.gift().addedBy === this.guestSessionId())
+  );
 
   readonly editing = signal(false);
   editName = '';

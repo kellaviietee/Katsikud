@@ -5,6 +5,7 @@
         <app-gift-item
           [gift]="gift"
           [editMode]="editMode()"
+          [guestSessionId]="guestSessionId()"
           (remove)="remove.emit($event)"
         />
       </li>

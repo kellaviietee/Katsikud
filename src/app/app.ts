@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { GiftService } from './services/gift.service';
 import { AddGiftComponent } from './components/add-gift/add-gift';
 import { GiftListComponent } from './components/gift-list/gift-list';
+import { getGuestSessionId } from './utils/guest-session';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class App {
 
   protected readonly editingTitle = signal(false);
   protected titleInput = '';
+  protected readonly guestSessionId = getGuestSessionId();
 
   constructor() {
     const params = new URLSearchParams(window.location.search);
@@ -44,7 +46,8 @@ export class App {
   }
 
   addGift(event: { name: string; urls: string[] }): void {
-    this.giftService.addGift(event.name, event.urls);
+    const addedBy = this.editMode() ? undefined : this.guestSessionId;
+    this.giftService.addGift(event.name, event.urls, addedBy);
   }
 
   removeGift(id: string): void {
