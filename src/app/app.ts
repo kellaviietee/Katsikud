@@ -4,6 +4,7 @@ import { GiftService } from './services/gift.service';
 import { AddGiftComponent } from './components/add-gift/add-gift';
 import { GiftListComponent } from './components/gift-list/gift-list';
 import { getGuestSessionId } from './utils/guest-session';
+import { DEFAULT_ACCENT, THEME_PRESETS } from './utils/theme-presets';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,9 @@ export class App {
   protected readonly editingTitle = signal(false);
   protected titleInput = '';
   protected readonly guestSessionId = getGuestSessionId();
+  protected readonly themePresets = THEME_PRESETS;
+  protected readonly defaultAccent = DEFAULT_ACCENT;
+  protected readonly activeAccent = computed(() => this.giftService.theme() || DEFAULT_ACCENT);
 
   constructor() {
     const params = new URLSearchParams(window.location.search);
@@ -76,6 +80,10 @@ export class App {
 
   toggleGuestAdding(): void {
     this.guestAdding.update(v => !v);
+  }
+
+  setTheme(color: string): void {
+    this.giftService.setTheme(color);
   }
 
   startEditTitle(): void {

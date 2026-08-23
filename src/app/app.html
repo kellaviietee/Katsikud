@@ -1,4 +1,4 @@
-﻿<div class="page">
+﻿<div class="page" [style.--accent]="activeAccent()">
   <header class="header">
     <div class="header-inner">
       <div class="header-title">
@@ -52,6 +52,19 @@
             />
             Luba teistel kingitusi lisada
           </label>
+          <div class="theme-picker" role="group" aria-label="Vali värviteema">
+            @for (preset of themePresets; track preset.color) {
+              <button
+                type="button"
+                class="theme-swatch"
+                [style.background]="preset.color"
+                [class.selected]="activeAccent() === preset.color"
+                [attr.aria-label]="preset.name"
+                [attr.title]="preset.name"
+                (click)="setTheme(preset.color)"
+              ></button>
+            }
+          </div>
         }
         @if (editMode()) {
           <button class="btn-share" (click)="copyShareLink()">
